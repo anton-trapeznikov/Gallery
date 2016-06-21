@@ -1,0 +1,14 @@
+import sys
+
+DEBUG = True
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '<dbname>',
+        'USER': '<user>',
+        "HOST": '',
+        'PASSWORD': '<password>',
+        'CHARSET': 'utf8',
+    },
+}
