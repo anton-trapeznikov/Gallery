@@ -1,5 +1,3 @@
-# Gallery
-
 Установка
 ---------
 
@@ -16,7 +14,7 @@
     virtualenv --python=python3 [path_to_venv]
 ```
 
-    Возможно, что для установки mysqlclient потребуется установка `python3-dev` и клиентских библиотек mysql. В Debian и его форках - пакеты `mysql-client` и `libmysqlclient-dev`.
+Возможно, что для установки mysqlclient потребуется установка `python3-dev` и клиентских библиотек mysql. В Debian и его форках - пакеты `mysql-client` и `libmysqlclient-dev`.
 
 * Находясь в виртуальном окружении установить зависимости
 
