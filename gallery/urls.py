@@ -1,10 +1,12 @@
 from django.conf.urls import url
 from django.contrib import admin
+from gallery.views import PhotoListView
 import gallery.views
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^photo/(?P<photo_id>[-\d]+)/$', gallery.views.photo, name='photo'),
-    url(r'^tag/(?P<tag_id>[-\d]+)/$', gallery.views.tag, name='tag'),
+    url(r'^$', PhotoListView.as_view(), name='homepage'),
+    url(r'^ajax/like/photo/(?P<pid>[-\d]+)/value/(?P<val>-?[-\d]+)/$',
+        gallery.views.set_like, name='set_like'),
 ]

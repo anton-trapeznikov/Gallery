@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Фотогарелея</h1>
+
+    <div class="content">
+        {% for photo in photos %}
+            <div class="photo-row js-photo-row">
+                <div class="photo-wrapper">
+                    <div class="photo js-photo" data-src="{{ photo.src }}"></div>
+                </div>
+
+                <div class="photo-meta">
+                    <p class="photo-rating">
+                        <span>Рейтинг:</span>
+                        <button href="javascript:void(0);" class="like-button js-like-button" data-inc="-1" data-pid="{{ photo.id }}">-</button>
+                        <span class="js-rating">{{ photo.rating }}</span>
+                        <button href="javascript:void(0);" class="like-button js-like-button" data-inc="1" data-pid="{{ photo.id }}">+</button>
+                    </p>
+                    <p class="photo-date"><span>Создан:</span> {{ photo.created_at|date:"d.m.Y" }}</p>
+                    <p class="photo-owner"><span>Владелец:</span> {{ photo.owner.username }}</p>
+                </div>
+
+                <p class="photo-tags">
+                    <span>Теги:</span>
+                    {% for tag in photo.photo_tag %}
+                        <a href="{{ tag.get_absolute_url }}" data-tag="{{ tag.id }}" class="photo-tag js-photo-tag">{{ tag.name }}</a>
+                    {% empty %}
+                        отсутствуют
+                    {% endfor %}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="sidebar">
+        <form action='.' method="get" class="js-form">
+            <span class="sidebar-caption">Выборка по тегам</span>
+
+            <div class="sidebar-block">
+                {{ form.tag }}
+            </div>
+
+            <span class="sidebar-caption">Исключающие теги</span>
+
+            <div class="sidebar-block">
+                {{ form.ex_tag }}
+            </div>
+
+            <span class="sidebar-caption">Порядок сортировки</span>
+
+            <div class="sidebar-block">
+                {{ form.order }}
+            </div>
+
+            <span class="sidebar-caption">Пагинация</span>
+
+            <div class="sidebar-block paging">
+                <p class="paging-info">
+                    Стр. № {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+                </p>
+
+                {% if page_obj.paginator.num_pages > 1 %}
+                    <div class="pages">
+                        {% if page_obj.has_previous %}
+                            <a href="?page={{ page_obj.previous_page_number }}" class="js-go-to-page" data-page="{{ page_obj.previous_page_number }}">
+                                &lsaquo;
+                            </a>
+                        {% endif %}
+
+                        <input type="num" name="page" value="{{ page_obj.number }}" class="js-page" data-max="{{ page_obj.paginator.num_pages }}">
+
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}" class="js-go-to-page" data-page="{{ page_obj.next_page_number }}">
+                                &rsaquo;
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <button class="form-sumbit js-submit">Отправить</button>
+        </form>
+
+        {% if is_paginated %}
+
+        {% endif %}
+    </div>
+{% endblock %}

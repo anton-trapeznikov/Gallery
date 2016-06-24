@@ -21,11 +21,11 @@ class Migration(migrations.Migration):
             name='Like',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('rating', models.SmallIntegerField(blank=True, default=0, verbose_name='Оценка')),
+                ('rating', models.IntegerField(blank=True, default=0, verbose_name='Оценка')),
             ],
             options={
-                'verbose_name_plural': 'Лайки',
                 'verbose_name': 'Лайк',
+                'verbose_name_plural': 'Лайки',
             },
         ),
         migrations.CreateModel(
@@ -38,19 +38,19 @@ class Migration(migrations.Migration):
                 ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Владелец')),
             ],
             options={
-                'verbose_name_plural': 'Фотографии',
                 'verbose_name': 'Фотография',
+                'verbose_name_plural': 'Фотографии',
             },
         ),
         migrations.CreateModel(
             name='PhotoTags',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('photo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='gallery.Photo', verbose_name='Фото')),
+                ('photo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='tags', to='gallery.Photo', verbose_name='Фото')),
             ],
             options={
-                'verbose_name_plural': 'Облако тегов',
                 'verbose_name': 'Облако тегов',
+                'verbose_name_plural': 'Облако тегов',
             },
         ),
         migrations.CreateModel(
@@ -60,8 +60,8 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=32, unique=True, verbose_name='Тег')),
             ],
             options={
-                'verbose_name_plural': 'Теги',
                 'verbose_name': 'Тег',
+                'verbose_name_plural': 'Теги',
             },
         ),
         migrations.AddField(
@@ -72,11 +72,15 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='like',
             name='photo',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='gallery.Photo', verbose_name='Фото'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='likes', to='gallery.Photo', verbose_name='Фото'),
         ),
         migrations.AddField(
             model_name='like',
             name='user',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Пользователь'),
+        ),
+        migrations.AlterUniqueTogether(
+            name='like',
+            unique_together=set([('photo', 'user')]),
         ),
     ]
